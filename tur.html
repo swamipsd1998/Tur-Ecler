@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Nikita Home Travel</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      overflow-wrap: break-word;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #1A2530 0%, #2A3A4A 100%);
+      color: #FFFFFF;
+      line-height: 1.6;
+      overflow-x: hidden;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('https://www.transparenttextures.com/patterns/noise.png');
+      opacity: 0.05;
+      z-index: -1;
+    }
+
+    body.dark-mode {
+      background: linear-gradient(135deg, #121B25 0%, #1A2530 100%);
+      color: #E0E0E0;
+    }
+
+    body.dark-mode .nav-container,
+    body.dark-mode #welcome,
+    body.dark-mode #friday,
+    body.dark-mode #saturday,
+    body.dark-mode #sunday,
+    body.dark-mode #feedback,
+    body.dark-mode #timer,
+    body.dark-mode #booking {
+      background: linear-gradient(135deg, #1A2530 0%, #2A3A4A 100%);
+    }
+
+    body.dark-mode .day-content,
+    body.dark-mode .feedback-item {
+      background: rgba(42, 58, 74, 0.9);
+      backdrop-filter: blur(12px);
+      color: #E0E0E0;
+    }
+
+    body.dark-mode .review--funny {
+      background: rgba(255, 138, 117, 0.2);
+    }
+
+    body.dark-mode h1,
+    body.dark-mode h2,
+    body.dark-mode .schedule-item i,
+    body.dark-mode .included-item i {
+      color: #FFE066;
+    }
+
+    body.dark-mode p {
+      color: #D0D0D0;
+    }
+
+    body.dark-mode .interlude,
+    body.dark-mode .experience {
+      color: #D0D0D0;
+    }
+
+    /* Навигация */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(26, 37, 48, 0.9);
+      backdrop-filter: blur(12px);
+      padding: 15px 20px;
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+      z-index: 100;
+      border-bottom: 1px solid rgba(255, 138, 117, 0.3);
+    }
+
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .nav-logo {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #FFFFFF;
+      text-shadow: 0 1px 5px rgba(255, 138, 117, 0.3);
+    }
+
+    .nav-logo span {
+      color: #FF8A75;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 20px;
+      list-style: none;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: #FFFFFF;
+      text-decoration: none;
+      font-size: 1rem;
+      font-weight: 600;
+      transition: color 0.3s ease, transform 0.3s ease;
+      position: relative;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -5px;
+      left: 0;
+      background: #FF8A75;
+      transition: width 0.3s ease;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .nav-links a:hover {
+      color: #FF8A75;
+      transform: translateY(-2px);
+    }
+
+    .theme-toggle {
+      background: none;
+      border: none;
+      color: #FFFFFF;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .theme-toggle:hover {
+      transform: rotate(20deg);
+    }
+
+    .burger {
+      display: none;
+      font-size: 1.5rem;
+      color: #FFFFFF;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+
+    section {
+      padding: 60px 20px;
+      text-align: center;
+      min-height: 80vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border-top: 1px solid rgba(255, 138, 117, 0.1);
+      position: relative;
+      transition: transform 0.5s ease;
+    }
+
+    section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, rgba(255, 138, 117, 0.05), transparent);
+      z-index: 0;
+    }
+
+    section::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #FF8A75, transparent);
+    }
+
+    h1, h2 {
+      font-family: 'Cinzel Decorative', serif;
+      color: #FFE066;
+      font-weight: 700;
+      text-shadow: 0 1px 5px rgba(255, 224, 102, 0.3);
+    }
+
+    h1 {
+      font-size: 4rem;
+      margin-bottom: 10px;
+      color: #FFFFFF;
+      text-shadow: 0 0 10px rgba(255, 138, 117, 0.5), 0 0 20px rgba(255, 224, 102, 0.5);
+      animation: glow 2s infinite alternate;
+    }
+
+    @keyframes glow {
+      0% { text-shadow: 0 0 10px rgba(255, 138, 117, 0.5), 0 0 20px rgba(255, 224, 102, 0.5); }
+      100% { text-shadow: 0 0 20px rgba(255, 138, 117, 0.7), 0 0 30px rgba(255, 224, 102, 0.7); }
+    }
+
+    h2 {
+      font-size: 2.2rem;
+      margin-bottom: 15px;
+      position: relative;
+    }
+
+    h2::after {
+      content: '';
+      position: absolute;
+      width: 50px;
+      height: 3px;
+      background: #FF8A75;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    p {
+      font-size: 0.95rem;
+      color: #D0D0D0;
+      max-width: 800px;
+      margin: 0 auto 15px;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 10px 25px;
+      font-size: 0.95rem;
+      background: linear-gradient(135deg, #FF8A75, #FF9F8A);
+      color: #FFFFFF;
+      text-decoration: none;
+      border-radius: 50px;
+      transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+      margin: 10px;
+      box-shadow: 0 4px 15px rgba(255, 138, 117, 0.5);
+      min-height: 44px;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transition: left 0.5s ease;
+      z-index: -1;
+    }
+
+    .btn:hover::before {
+      left: 100%;
+    }
+
+    .btn:hover {
+      transform: scale(1.05);
+      background: linear-gradient(135deg, #FF9F8A, #FFB4A0);
+      box-shadow: 0 6px 20px rgba(255, 138, 117, 0.7);
+    }
+
+    .btn:active {
+      transform: scale(0.95);
+    }
+
+    .btn--secondary {
+      background: linear-gradient(135deg, #FFE066, #FFF0A3);
+      color: #1A2530;
+      box-shadow: 0 4px 15px rgba(255, 224, 102, 0.5);
+    }
+
+    .btn--secondary:hover {
+      background: linear-gradient(135deg, #FFF0A3, #FFFFCC);
+      box-shadow: 0 6px 20px rgba(255, 224, 102, 0.7);
+    }
+
+    /* Приветственный экран */
+    #welcome {
+      background: linear-gradient(rgba(26, 37, 48, 0.8), rgba(26, 37, 48, 0.8)), url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1350&q=80');
+      background-size: cover;
+      background-position: center;
+      color: #FFFFFF;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #welcome::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, rgba(255, 138, 117, 0.2), transparent);
+      z-index: 0;
+    }
+
+    #welcome::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('https://www.transparenttextures.com/patterns/dark-mosaic.png');
+      opacity: 0.1;
+      z-index: 0;
+    }
+
+    #welcome .content {
+      position: relative;
+      z-index: 1;
+      transform: translateY(0);
+      transition: transform 0.5s ease;
+    }
+
+    #welcome p {
+      font-style: italic;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+      color: #FFFFFF;
+      font-size: 1.1rem;
+    }
+
+    .experience {
+      font-style: italic;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+      color: #FFFFFF;
+      font-size: 0.95rem;
+      max-width: 800px;
+      margin: 0 auto 15px;
+    }
+
+    /* Параллакс эффект */
+    #welcome {
+      background-attachment: fixed;
+    }
+
+    /* Дни */
+    #friday, #saturday, #sunday {
+      background: linear-gradient(135deg, #1A2530 0%, #2A3A4A 100%);
+      padding: 60px 20px;
+    }
+
+    .interlude {
+      font-style: italic;
+      color: #D0D0D0;
+      max-width: 800px;
+      margin: 0 auto 20px;
+      font-size: 0.9rem;
+      position: relative;
+      padding: 15px;
+      background: rgba(255, 138, 117, 0.05);
+      border-radius: 10px;
+      box-shadow: inset 0 0 10px rgba(255, 138, 117, 0.2);
+    }
+
+    .day-content {
+      background: rgba(42, 58, 74, 0.9);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+      border-radius: 20px;
+      margin: 20px auto;
+      padding: 30px;
+      max-width: 1000px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      position: relative;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      overflow: hidden;
+    }
+
+    .day-content:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 30px rgba(255, 138, 117, 0.3);
+    }
+
+    .day-content > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .day-content .schedule-container,
+    .day-content .included-container {
+      flex: 1;
+      min-width: 300px;
+    }
+
+    .day-content .extra-info {
+      display: none;
+      margin-top: 15px;
+      padding: 10px;
+      background: rgba(255, 138, 117, 0.1);
+      border-radius: 10px;
+      color: #D0D0D0;
+      font-size: 0.85rem;
+      width: 100%;
+    }
+
+    .day-content:hover .extra-info {
+      display: block;
+      animation: fadeIn 0.5s ease;
+    }
+
+    #friday .day-content,
+    #saturday .day-content,
+    #sunday .day-content {
+      background: rgba(42, 58, 74, 0.9);
+      backdrop-filter: blur(12px);
+      color: #FFFFFF;
+    }
+
+    #friday h2,
+    #friday .schedule-item i,
+    #friday .included-item i,
+    #saturday h2,
+    #saturday .schedule-item i,
+    #saturday .included-item i,
+    #sunday h2,
+    #sunday .schedule-item i,
+    #sunday .included-item i {
+      color: #FFE066;
+    }
+
+    #friday p,
+    #saturday p,
+    #sunday p {
+      color: #D0D0D0;
+    }
+
+    .schedule {
+      text-align: center;
+      margin: 0;
+    }
+
+    .schedule-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+    }
+
+    .schedule-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      margin: 10px 0;
+      font-size: 0.9rem;
+      background: linear-gradient(135deg, rgba(255, 138, 117, 0.1), rgba(255, 224, 102, 0.1));
+      padding: 15px;
+      border-radius: 12px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .schedule-item::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, rgba(255, 138, 117, 0.2), transparent);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: 0;
+    }
+
+    .schedule-item:hover::before {
+      opacity: 1;
+    }
+
+    .schedule-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 15px rgba(255, 138, 117, 0.5);
+    }
+
+    .schedule-item span {
+      font-size: 1.5rem;
+      transition: transform 0.3s ease;
+    }
+
+    .schedule-item:hover span {
+      transform: scale(1.2) rotate(5deg);
+    }
+
+    .schedule-item h3 {
+      font-size: 1rem;
+      color: #FFE066;
+      margin-bottom: 5px;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    }
+
+    .schedule-item p {
+      margin: 0;
+      font-size: 0.85rem;
+      color: #D0D0D0;
+    }
+
+    .included-items {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 10px;
+      margin-top: 0;
+    }
+
+    .included-item {
+      background: rgba(255, 138, 117, 0.1);
+      padding: 10px;
+      border-radius: 8px;
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+      border: 1px solid rgba(255, 138, 117, 0.3);
+      box-shadow: inset 0 0 5px rgba(255, 138, 117, 0.2);
+    }
+
+    .included-item:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 15px rgba(255, 138, 117, 0.5);
+    }
+
+    .included-item i {
+      font-size: 1.2rem;
+      margin-bottom: 5px;
+      color: #FFE066;
+      transition: transform 0.3s ease;
+    }
+
+    .included-item:hover i {
+      transform: rotate(10deg);
+    }
+
+    .included-item p {
+      font-size: 0.8rem;
+      margin: 0;
+      color: #D0D0D0;
+    }
+
+    /* Отзывы */
+    #feedback {
+      background: linear-gradient(135deg, #E5E5E5 0%, #D5D5D5 100%);
+      padding: 60px 20px;
+      position: relative;
+    }
+
+    #feedback h2 {
+      color: #333333;
+    }
+
+    #feedback p {
+      color: #666666;
+    }
+
+    .feedback-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .feedback-item {
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(12px);
+      padding: 15px;
+      border-radius: 15px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .feedback-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .review {
+      margin-bottom: 15px;
+      padding: 10px;
+      border-radius: 8px;
+      position: relative;
+    }
+
+    .review::before {
+      content: '“';
+      position: absolute;
+      top: -10px;
+      left: 10px;
+      font-size: 2rem;
+      color: #FF8A75;
+      opacity: 0.3;
+    }
+
+    .review p {
+      font-style: italic;
+      color: #666666;
+      font-size: 0.9rem;
+    }
+
+    .review--funny {
+      background: rgba(255, 138, 117, 0.2);
+    }
+
+    .review .nickname {
+      font-weight: 600;
+      color: #FF8A75;
+    }
+
+    /* Таймер */
+    #timer {
+      background: linear-gradient(135deg, #E5E5E5 0%, #D5D5D5 100%);
+      padding: 60px 20px;
+      position: relative;
+    }
+
+    #timer h2 {
+      color: #333333;
+    }
+
+    #timer p {
+      color: #666666;
+    }
+
+    #countdown {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      font-size: 1.2rem;
+      color: #333333;
+    }
+
+    #countdown span {
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(12px);
+      padding: 8px 15px;
+      border-radius: 5px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+
+    #countdown span:hover {
+      transform: scale(1.1);
+    }
+
+    /* Форма бронирования */
+    #booking {
+      background: linear-gradient(135deg, #1A2530 0%, #2A3A4A 100%);
+      color: #FFFFFF;
+      padding: 60px 20px;
+    }
+
+    #booking h2 {
+      color: #FFFFFF;
+    }
+
+    .booking-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 200;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .booking-message {
+      max-width: 600px;
+      padding: 15px;
+      background: linear-gradient(135deg, #FFE066, #FFF0A3);
+      color: #1A2530;
+      border-radius: 15px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      font-style: italic;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .booking-message.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .company-signature {
+      margin-top: 15px;
+      font-size: 0.85rem;
+      font-style: italic;
+      color: #FFE066;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Анимации */
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(20px); filter: blur(5px); }
+      100% { opacity: 1; transform: translateY(0); filter: blur(0); }
+    }
+
+    .fade-in {
+      opacity: 0;
+      animation: fadeIn 1s ease-out forwards;
+    }
+
+    /* Адаптивность */
+    @media (max-width: 834px) {
+      .day-content {
+        flex-direction: column;
+      }
+
+      .included-items,
+      .feedback-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      }
+
+      section {
+        padding: 50px 15px;
+        min-height: 70vh;
+      }
+
+      .day-content,
+      .included-items,
+      .feedback-item {
+        margin: 10px;
+        padding: 20px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        background: rgba(26, 37, 48, 0.9);
+        backdrop-filter: blur(12px);
+        padding: 20px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+      }
+
+      .nav-links.active {
+        display: flex;
+      }
+
+      .nav-links a {
+        font-size: 0.95rem;
+        padding: 8px;
+      }
+
+      .burger {
+        display: block;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .included-items,
+      .feedback-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .schedule-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .schedule-item,
+      .review {
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .schedule-item i {
+        margin-bottom: 8px;
+      }
+
+      section {
+        padding: 40px 10px;
+        min-height: 60vh;
+      }
+
+      .btn {
+        padding: 8px 20px;
+        font-size: 0.85rem;
+        min-height: 48px;
+      }
+
+      #countdown {
+        font-size: 1rem;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      #countdown span {
+        padding: 6px 12px;
+        min-width: 50px;
+      }
+
+      h1 {
+        font-size: 2.5rem;
+      }
+
+      h2 {
+        font-size: 1.8rem;
+      }
+
+      .experience {
+        font-size: 0.85rem;
+      }
+
+      .schedule-item {
+        margin: 5px 0;
+        padding: 10px;
+      }
+
+      .schedule-item h3 {
+        font-size: 0.9rem;
+      }
+
+      .schedule-item p {
+        font-size: 0.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Навигация -->
+  <nav>
+    <div class="nav-container">
+      <div class="nav-logo">Nikita Home Travel <span>✨</span></div>
+      <button class="burger" aria-label="Toggle menu">☰</button>
+      <ul class="nav-links">
+        <li><a href="#welcome">Главная</a></li>
+        <li><a href="#friday">Пятница</a></li>
+        <li><a href="#saturday">Суббота</a></li>
+        <li><a href="#sunday">Воскресенье</a></li>
+        <li><a href="#feedback">Отзывы</a></li>
+        <li><a href="#booking">Забронировать</a></li>
+        <li><button class="theme-toggle" aria-label="Toggle theme">🌙</button></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Приветственный экран -->
+  <section id="welcome">
+    <div class="content">
+      <h1 class="fade-in">Nikita Home Travel</h1>
+      <p class="fade-in">Романтика, уют и эмоции в Москве от Nikita Home Travel! ✨</p>
+      <p class="experience fade-in">7 месяцев заботимся об Алёне. И о вашем отдыхе.</p>
+      <a href="#friday" class="btn fade-in">Узнать о туре</a>
+    </div>
+  </section>
+
+  <!-- Пятница -->
+  <section id="friday">
+    <p class="interlude fade-in">Пятница — начало. Мы погружаем вас в выходные, где отдых — это когда вы ничего не должны. Только вы и свобода.</p>
+    <div class="day-content fade-in">
+      <div class="schedule-container">
+        <h2>Пятница: Романтика и веселье</h2>
+        <div class="schedule">
+          <div class="schedule-grid">
+            <div class="schedule-item">
+              <span>🏙️</span>
+              <h3>Прогулка с Алёной</h3>
+              <p>Встреча с Алёной, прогулка по Москве.</p>
+            </div>
+            <div class="schedule-item">
+              <span>🎲</span>
+              <h3>Настолки с друзьями</h3>
+              <p>Встреча с друзьями: настолки, чай, разговоры.</p>
+            </div>
+            <div class="schedule-item">
+              <span>🍿</span>
+              <h3>Киносеанс</h3>
+              <p>Уютный киносеанс дома.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="included-container">
+        <h2>Что включено</h2>
+        <div class="included-items">
+          <div class="included-item">
+            <i class="fas fa-beer-mug-empty"></i>
+            <p>Безалкогольное пиво</p>
+          </div>
+          <div class="included-item">
+            <i class="fas fa-mug-hot"></i>
+            <p>Lipton и чипсики</p>
+          </div>
+          <div class="included-item">
+            <i class="fas fa-user-friends"></i>
+            <p>Интересный собеседник</p>
+          </div>
+        </div>
+      </div>
+      <div class="extra-info">
+        <p>А ещё мы позаботимся о вашем настроении — уютная атмосфера гарантирована!</p>
+      </div>
+    </div>
+    <a href="#saturday" class="btn fade-in">Что будет дальше?</a>
+  </section>
+
+  <!-- Суббота -->
+  <section id="saturday">
+    <p class="interlude fade-in">Суббота — ваш день. Прокрастинируйте, ешьте, наслаждайтесь. Мир принадлежит вам.</p>
+    <div class="day-content fade-in">
+      <div class="schedule-container">
+        <h2>Суббота: Полный релакс</h2>
+        <div class="schedule">
+          <div class="schedule-grid">
+            <div class="schedule-item">
+              <span>🍽️</span>
+              <h3>Поздний завтрак</h3>
+              <p>Поздний подъём, макзавтрак.</p>
+            </div>
+            <div class="schedule-item">
+              <span>🎮</span>
+              <h3>Игры на Xbox</h3>
+              <p>Игры на Xbox: кооперативная *It Takes Two*.</p>
+            </div>
+            <div class="schedule-item">
+              <span>📺</span>
+              <h3>Фильмы и шоу</h3>
+              <p>Фильмы и шоу.</p>
+            </div>
+            <div class="schedule-item">
+              <span>📽️</span>
+              <h3>Кино-марафон</h3>
+              <p>Большой выбор: от "Битвы экстрасенсов" до "Беременна в 16".</p>
+            </div>
+            <div class="schedule-item">
+              <span>🍣</span>
+              <h3>Ужин в японском стиле</h3>
+              <p>Ужин в японском стиле: роллы.</p>
+            </div>
+            <div class="schedule-item">
+              <span>🍱</span>
+              <h3>Сет от шеф-повара</h3>
+              <p>Специальный сет от шеф-повара Никиты.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="included-container">
+        <h2>Что включено</h2>
+        <div class="included-items">
+          <div class="included-item">
+            <i class="fas fa-bowl-food"></i>
+            <p>Чипсы</p>
+          </div>
+          <div class="included-item">
+            <i class="fas fa-couch"></i>
+            <p>Полное расслабление</p>
+          </div>
+          <div class="included-item">
+            <i class="fas fa-umbrella-beach"></i>
+            <p>Ощущение бесконечных выходных</p>
+          </div>
+        </div>
+      </div>
+      <div class="extra-info">
+        <p>Мы добавим немного магии в ваш день — расслабьтесь по полной!</p>
+      </div>
+    </div>
+    <a href="#sunday" class="btn fade-in">Что будет дальше?</a>
+  </section>
+
+  <!-- Воскресенье -->
+  <section id="sunday">
+    <p class="interlude fade-in">Воскресенье — закрепление. Повторите субботу, чтобы окончательно отдохнуть перед рабочей неделей.</p>
+    <div class="day-content fade-in">
+      <div class="schedule-container">
+        <h2>Воскресенье: Спокойное завершение</h2>
+        <div class="schedule">
+          <div class="schedule-grid">
+            <div class="schedule-item">
+              <span>📺</span>
+              <h3>Утреннее шоу</h3>
+              <p>Утреннее шоу "Мужское/Женское" с завтраком.</p>
+            </div>
+            <div class="schedule-item">
+              <span>🍽️</span>
+              <h3>Завтрак под настроение</h3>
+              <p>Завтрак под настроение: тосты, сырники или сэндвич.</p>
+            </div>
+            <div class="schedule-item">
+              <span>☕</span>
+              <h3>Кофе</h3>
+              <p>Кофе.</p>
+            </div>
+            <div class="schedule-item">
+              <span>🛋️</span>
+              <h3>Отдых в кровати</h3>
+              <p>Фильмы и отдых в кровати.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="included-container">
+        <h2>Что включено</h2>
+        <div class="included-items">
+          <div class="included-item">
+            <i class="fas fa-umbrella-beach"></i>
+            <p>Отдых перед рабочей неделей</p>
+          </div>
+          <div class="included-item">
+            <i class="fas fa-trophy"></i>
+            <p>Завершение уикенда</p>
+          </div>
+          <div class="included-item">
+            <i class="fas fa-redo"></i>
+            <p>Повторение: лень, фильмы, еда</p>
+          </div>
+        </div>
+      </div>
+      <div class="extra-info">
+        <p>Идеальный день, чтобы зарядиться перед рабочей неделей!</p>
+      </div>
+    </div>
+    <a href="#feedback" class="btn fade-in">Забронировать</a>
+  </section>
+
+  <!-- Отзывы -->
+  <section id="feedback">
+    <h2 class="fade-in">Что говорят о нас</h2>
+    <div class="feedback-grid">
+      <div class="feedback-item fade-in">
+        <h2>Отзывы</h2>
+        <div class="review review--funny">
+          <p>"Тур забронировали быстрее, чем я успел понять, что лестница оказалась настолько длинной, что я потерял сознание, пока падал. Но сервис на высоте! Теперь точно могу справиться с чем угодно... ну, кроме длинных лестниц." — <span class="nickname">@JohnWick</span></p>
+        </div>
+        <div class="review review--funny">
+          <p>"Даже учли пожелания по зелёному забору — экстрасенсы в восторге! 🔮" — <span class="nickname">@ShepsOfficial</span></p>
+        </div>
+      </div>
+    </div>
+    <a href="#timer" class="btn fade-in">Далее</a>
+  </section>
+
+  <!-- Таймер -->
+  <section id="timer">
+    <h2 class="fade-in">До начала тура осталось</h2>
+    <div id="countdown" class="fade-in">
+      <span id="days">00</span> дней
+      <span id="hours">00</span> часов
+      <span id="minutes">00</span> минут
+      <span id="seconds">00</span> секунд
+    </div>
+    <a href="#booking" class="btn fade-in">Забронировать</a>
+  </section>
+
+  <!-- Форма бронирования -->
+  <section id="booking">
+    <h2 class="fade-in">Готовы к уикенду?</h2>
+    <button class="btn" id="booking-btn">Забронировать</button>
+    <div class="booking-overlay" id="booking-overlay">
+      <div class="booking-message" id="booking-message">
+        Никита уже обо всём позаботился! 💖
+      </div>
+    </div>
+    <p class="company-signature">С любовью, Nikita Home Travel 💖</p>
+  </section>
+
+  <script>
+    // Бургер-меню
+    document.querySelector('.burger').addEventListener('click', () => {
+      document.querySelector('.nav-links').classList.toggle('active');
+    });
+
+    // Плавная прокрутка для навигации
+    document.querySelectorAll('nav a, .btn').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href').substring(1);
+        const targetElement = document.getElementById(targetId);
+        window.scrollTo({
+          top: targetElement.offsetTop - 60,
+          behavior: 'smooth'
+        });
+        document.querySelector('.nav-links').classList.remove('active');
+      });
+    });
+
+    // Темный режим
+    const themeToggle = document.querySelector('.theme-toggle');
+    themeToggle.addEventListener('click', () => {
+      document.body.classList.toggle('dark-mode');
+      themeToggle.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+    });
+
+    // Анимация при прокрутке
+    const elements = document.querySelectorAll('.fade-in');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('fade-in');
+        }
+      });
+    }, { threshold: 0.2 });
+
+    elements.forEach(element => observer.observe(element));
+
+    // Таймер обратного отсчета
+    function countdown() {
+      const targetDate = new Date('2025-05-02T16:00:00');
+      const now = new Date();
+      const diff = targetDate - now;
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+      document.getElementById('days').textContent = days.toString().padStart(2, '0');
+      document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+      document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+      document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+    }
+
+    setInterval(countdown, 1000);
+    countdown();
+
+    // Обработка кнопки бронирования
+    document.getElementById('booking-btn').addEventListener('click', () => {
+      const overlay = document.getElementById('booking-overlay');
+      const message = document.getElementById('booking-message');
+      overlay.style.display = 'flex';
+      setTimeout(() => {
+        message.classList.add('show');
+      }, 100);
+    });
+  </script>
+</body>
+</html>
